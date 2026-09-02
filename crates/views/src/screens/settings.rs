@@ -211,9 +211,7 @@ impl SettingsView {
                 Row::Item(self.saver_row(cx).into_any_element()),
             ]
             .into_iter()
-            .chain(decorated().then(|| self.title("settings-group-title-bar", cx)))
-            .chain(decorated().then(|| Row::Item(self.decorations_row(cx).into_any_element())))
-            .chain(decorated().then(|| Row::Item(self.side_row(cx).into_any_element())))
+            .chain(self.decoration_rows(cx))
             .chain([
                 self.title("settings-advanced", cx),
                 Row::Item(self.adaptive_menu_row(cx).into_any_element()),
@@ -251,6 +249,24 @@ impl SettingsView {
             panel = panel.child(row.into_element());
         }
         panel
+    }
+
+    fn decoration_rows(&self, cx: &mut Context<Self>) -> Vec<Row> {
+        #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+        let rows = vec![
+            self.title("settings-group-window-style", cx),
+            Row::Item(self.server_side_decorations_row(cx).into_any_element()),
+            Row::Item(self.side_row(cx).into_any_element()),
+        ];
+        #[cfg(not(any(target_os = "linux", target_os = "freebsd", target_os = "macos")))]
+        let rows = vec![
+            self.title("settings-group-title-bar", cx),
+            Row::Item(self.decorations_row(cx).into_any_element()),
+            Row::Item(self.side_row(cx).into_any_element()),
+        ];
+        #[cfg(target_os = "macos")]
+        let rows = Vec::<Row>::new();
+        rows
     }
 
     fn title(&self, key: &'static str, cx: &App) -> Row {
@@ -607,6 +623,31 @@ impl SettingsView {
         )
     }
 
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+    fn server_side_decorations_row(&self, cx: &mut Context<Self>) -> impl IntoElement {
+        let theme = *cx.theme();
+        let muted = theme.muted_foreground;
+        let small = theme.text(Text::Small);
+        let enabled = self.settings.read(cx).server_side_decorations();
+
+        self.row(
+            t!("settings-server-side-decorations"),
+            t!("settings-server-side-decorations-detail"),
+            muted,
+            small,
+            Switch::new("server-side-decorations", enabled)
+                .on_click(cx.listener(move |this, _, window, cx| {
+                    let decorations = this.settings.update(cx, |settings, cx| {
+                        settings.set_server_side_decorations(!enabled, cx);
+                        settings.window_decorations()
+                    });
+                    window.request_decorations(decorations);
+                }))
+                .into_any_element(),
+        )
+    }
+
+    #[cfg(not(any(target_os = "linux", target_os = "freebsd", target_os = "macos")))]
     fn decorations_row(&self, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = *cx.theme();
         let muted = theme.muted_foreground;
@@ -627,12 +668,16 @@ impl SettingsView {
         )
     }
 
+    #[cfg(not(target_os = "macos"))]
     fn side_row(&self, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = *cx.theme();
         let muted = theme.muted_foreground;
         let small = theme.text(Text::Small);
         let settings = self.settings.read(cx);
         let left = settings.controls_on_left();
+        #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+        let shown = !settings.server_side_decorations();
+        #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
         let shown = settings.window_controls();
 
         self.row(
@@ -1790,10 +1835,6 @@ fn samples(pack: &'static icons::Pack, tint: gpui::Hsla) -> impl IntoElement {
                 .flex_none()
                 .text_color(tint)
         }))
-}
-
-fn decorated() -> bool {
-    cfg!(not(target_os = "macos"))
 }
 
 fn open_settings_file(path: &Path) -> std::io::Result<()> {

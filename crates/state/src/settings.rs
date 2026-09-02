@@ -3,6 +3,8 @@ use std::fs;
 use std::path::PathBuf;
 use std::time::Duration;
 
+#[cfg(any(target_os = "linux", target_os = "freebsd"))]
+use gpui::WindowDecorations;
 use gpui::{
     App, Bounds, Context, Pixels, Size, Subscription, Task, Window, WindowBounds, point, px, size,
 };
@@ -202,6 +204,8 @@ struct Appearance {
     font_size: f32,
     transparent: bool,
     transparency: f32,
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+    server_side_decorations: bool,
     window_controls: bool,
     controls_on_left: bool,
     reduce_motion: String,
@@ -287,6 +291,8 @@ impl Default for Appearance {
             font_size: DEFAULT_FONT_SIZE,
             transparent: false,
             transparency: 0.15,
+            #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+            server_side_decorations: true,
             window_controls: true,
             controls_on_left: false,
             reduce_motion: Stillness::default().id().to_owned(),
@@ -478,6 +484,19 @@ impl AppSettings {
             transparent: self.transparent(),
             transparency: self.transparency(),
             tint: None,
+        }
+    }
+
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+    pub fn server_side_decorations(&self) -> bool {
+        self.values.appearance.server_side_decorations
+    }
+
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+    pub fn window_decorations(&self) -> WindowDecorations {
+        match self.server_side_decorations() {
+            true => WindowDecorations::Server,
+            false => WindowDecorations::Client,
         }
     }
 
@@ -836,6 +855,12 @@ impl AppSettings {
             return;
         }
         self.values.appearance.battery_saver = saver.id().to_owned();
+        self.schedule_save(cx);
+    }
+
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+    pub fn set_server_side_decorations(&mut self, shown: bool, cx: &mut Context<Self>) {
+        self.values.appearance.server_side_decorations = shown;
         self.schedule_save(cx);
     }
 

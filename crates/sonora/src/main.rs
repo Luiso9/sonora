@@ -177,7 +177,12 @@ fn open_window(cx: &mut App) {
     );
     let placement = state::window_placement(LEAST_SIZE, cx)
         .unwrap_or_else(|| WindowBounds::Windowed(Bounds::centered(None, FIRST_SIZE, cx)));
-    let saver = Sonora::global(cx).settings.read(cx).saver();
+
+    let settings = Sonora::global(cx).settings.read(cx);
+    let saver = settings.saver();
+    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+    let decorations = settings.window_decorations();
+
     cx.open_window(
         WindowOptions {
             window_bounds: Some(placement),
@@ -192,6 +197,8 @@ fn open_window(cx: &mut App) {
             is_resizable: true,
             app_id: Some("sonora".into()),
             window_min_size: Some(LEAST_SIZE),
+            #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+            window_decorations: Some(decorations),
             ..Default::default()
         },
         |window, cx| {

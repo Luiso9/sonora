@@ -7,6 +7,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- On Linux and FreeBSD, Sonora can switch between server-side and client-side window decorations
+  from Appearance and shows its own window controls automatically with client-side decorations.
+
 ## [0.30.0] - 2026-09-04
 
 ### Added

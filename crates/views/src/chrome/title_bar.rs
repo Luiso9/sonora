@@ -1,3 +1,5 @@
+#[cfg(any(target_os = "linux", target_os = "freebsd"))]
+use gpui::Decorations;
 use gpui::prelude::*;
 use gpui::{
     AnyView, Context, Entity, EventEmitter, MouseButton, MouseDownEvent, MouseMoveEvent,
@@ -186,7 +188,11 @@ impl Render for TitleBar {
         };
         let content = self.options.content.clone();
         let settings = self.settings.read(cx);
-        let decorated = cfg!(not(target_os = "macos")) && settings.window_controls();
+        #[cfg(any(target_os = "linux", target_os = "freebsd"))]
+        let controls = matches!(window.window_decorations(), Decorations::Client { .. });
+        #[cfg(not(any(target_os = "linux", target_os = "freebsd")))]
+        let controls = settings.window_controls();
+        let decorated = cfg!(not(target_os = "macos")) && controls;
         let leading = decorated && settings.controls_on_left();
 
         div()
