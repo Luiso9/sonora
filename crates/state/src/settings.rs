@@ -151,6 +151,7 @@ struct Values {
     volume: f32,
     normalisation: bool,
     gapless: bool,
+    lyrics_for_local_files: bool,
     karaoke_lyrics: bool,
     romanized_lyrics: bool,
     panel_lyrics_scale: f32,
@@ -217,6 +218,7 @@ impl Default for Values {
             volume: DEFAULT_VOLUME,
             normalisation: false,
             gapless: true,
+            lyrics_for_local_files: true,
             karaoke_lyrics: true,
             romanized_lyrics: true,
             panel_lyrics_scale: DEFAULT_LYRICS_SCALE,
@@ -342,6 +344,10 @@ impl AppSettings {
 
     pub fn gapless(&self) -> bool {
         self.values.gapless
+    }
+
+    pub fn lyrics_for_local_files(&self) -> bool {
+        self.values.lyrics_for_local_files
     }
 
     pub fn karaoke_lyrics(&self) -> bool {
@@ -524,6 +530,11 @@ impl AppSettings {
 
     pub fn set_gapless(&mut self, gapless: bool, cx: &mut Context<Self>) {
         self.values.gapless = gapless;
+        self.schedule_save(cx);
+    }
+
+    pub fn set_lyrics_for_local_files(&mut self, enabled: bool, cx: &mut Context<Self>) {
+        self.values.lyrics_for_local_files = enabled;
         self.schedule_save(cx);
     }
 

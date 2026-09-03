@@ -221,6 +221,7 @@ filter-duration = Duration
 filter-year = Year
 filter-explicit = Explicit only
 filter-playable = Playable only
+filter-owned = By you
 
 # view
 view-list = List
@@ -430,6 +431,7 @@ month-12 = Dec
 settings-tab-general = General
 settings-tab-appearance = Appearance
 settings-tab-playback = Playback
+settings-tab-privacy = Privacy
 settings-theme = Theme
 settings-theme-detail = Choose the application colour palette
 settings-opacity = Opacity
@@ -483,6 +485,8 @@ settings-panel-lyrics-size-detail = Size of the lyrics text in the side panel, o
 settings-fullscreen-lyrics-size = Lyrics size (fullscreen)
 settings-fullscreen-lyrics-size-detail = Size of the lyrics text on the fullscreen player, on top of the base font size
 settings-lyrics-size-value = { $size }%
+settings-lyrics-for-local-files = Lyrics for local files
+settings-lyrics-for-local-files-detail = Use metadata from local files to fetch lyrics from the internet
 settings-karaoke-lyrics = Karaoke lyrics
 settings-karaoke-lyrics-detail = Highlight lyrics word by word when timing is available
 settings-romanized-lyrics = Romanized lyrics

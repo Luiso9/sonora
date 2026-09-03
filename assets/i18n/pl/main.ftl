@@ -154,6 +154,7 @@ filter-duration = Czas trwania
 filter-year = Rok
 filter-explicit = Tylko z wulgaryzmami
 filter-playable = Tylko dostępne
+filter-owned = Moje
 
 # view
 view-list = Lista
@@ -375,6 +376,7 @@ month-12 = gru
 settings-tab-general = Ogólne
 settings-tab-appearance = Wygląd
 settings-tab-playback = Odtwarzanie
+settings-tab-privacy = Prywatność
 settings-theme = Motyw
 settings-theme-detail = Paleta kolorów aplikacji
 settings-opacity = Krycie
@@ -426,6 +428,8 @@ settings-panel-lyrics-size-detail = Rozmiar wierszy tekstu utworu w panelu boczn
 settings-fullscreen-lyrics-size = Rozmiar tekstu utworu (pełny ekran)
 settings-fullscreen-lyrics-size-detail = Rozmiar wierszy tekstu utworu w odtwarzaczu pełnoekranowym ponad bazowy rozmiar czcionki
 settings-lyrics-size-value = { $size }%
+settings-lyrics-for-local-files = Tekst dla lokalnych plików
+settings-lyrics-for-local-files-detail = Użyj metadanych lokalnych plików do pobierania tekstu z internetu
 settings-karaoke-lyrics = Tekst karaoke
 settings-karaoke-lyrics-detail = Podświetlaj tekst słowo po słowie, gdy dostępne jest dopasowanie w czasie
 settings-romanized-lyrics = Latynizacja tekstu

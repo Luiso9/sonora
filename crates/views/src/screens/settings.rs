@@ -228,6 +228,9 @@ impl SettingsView {
                 Row::Item(self.karaoke_lyrics_row(cx).into_any_element()),
                 Row::Item(self.romanized_lyrics_row(cx).into_any_element()),
             ],
+            SettingsTab::Privacy => vec![Row::Item(
+                self.lyrics_for_local_files_row(cx).into_any_element(),
+            )],
             SettingsTab::About => vec![
                 Row::Item(self.version_row(cx).into_any_element()),
                 Row::Item(self.updates_row(cx).into_any_element()),
@@ -1147,6 +1150,27 @@ impl SettingsView {
             muted,
             small,
             actions.into_any_element(),
+        )
+    }
+
+    fn lyrics_for_local_files_row(&self, cx: &mut Context<Self>) -> impl IntoElement {
+        let theme = *cx.theme();
+        let muted = theme.muted_foreground;
+        let small = theme.text(Text::Small);
+        let on = self.settings.read(cx).lyrics_for_local_files();
+
+        self.row(
+            t!("settings-lyrics-for-local-files"),
+            t!("settings-lyrics-for-local-files-detail"),
+            muted,
+            small,
+            Switch::new("lyrics-for-local-files", on)
+                .on_click(cx.listener(move |this, _, _, cx| {
+                    this.settings.update(cx, |settings, cx| {
+                        settings.set_lyrics_for_local_files(!on, cx)
+                    });
+                }))
+                .into_any_element(),
         )
     }
 

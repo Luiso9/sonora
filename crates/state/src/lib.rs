@@ -127,6 +127,7 @@ pub fn init(
             playback.clone(),
             queue.clone(),
             session.clone(),
+            settings.clone(),
             lyrics_providers,
             io.clone(),
             cx,
