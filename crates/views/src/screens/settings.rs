@@ -226,6 +226,7 @@ impl SettingsView {
                 Row::Item(self.panel_lyrics_size_row(cx).into_any_element()),
                 Row::Item(self.fullscreen_lyrics_size_row(cx).into_any_element()),
                 Row::Item(self.karaoke_lyrics_row(cx).into_any_element()),
+                Row::Item(self.blur_lyrics_row(cx).into_any_element()),
                 Row::Item(self.romanized_lyrics_row(cx).into_any_element()),
             ],
             SettingsTab::Privacy => vec![Row::Item(
@@ -1189,6 +1190,26 @@ impl SettingsView {
                 .on_click(cx.listener(move |this, _, _, cx| {
                     this.settings
                         .update(cx, |settings, cx| settings.set_karaoke_lyrics(!on, cx));
+                }))
+                .into_any_element(),
+        )
+    }
+
+    fn blur_lyrics_row(&self, cx: &mut Context<Self>) -> impl IntoElement {
+        let theme = *cx.theme();
+        let muted = theme.muted_foreground;
+        let small = theme.text(Text::Small);
+        let on = self.settings.read(cx).blur_lyrics();
+
+        self.row(
+            t!("settings-blur-lyrics"),
+            t!("settings-blur-lyrics-detail"),
+            muted,
+            small,
+            Switch::new("blur-lyrics", on)
+                .on_click(cx.listener(move |this, _, _, cx| {
+                    this.settings
+                        .update(cx, |settings, cx| settings.set_blur_lyrics(!on, cx));
                 }))
                 .into_any_element(),
         )

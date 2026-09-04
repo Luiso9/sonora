@@ -153,6 +153,7 @@ struct Values {
     gapless: bool,
     lyrics_for_local_files: bool,
     karaoke_lyrics: bool,
+    blur_lyrics: bool,
     romanized_lyrics: bool,
     panel_lyrics_scale: f32,
     fullscreen_lyrics_scale: f32,
@@ -220,6 +221,7 @@ impl Default for Values {
             gapless: true,
             lyrics_for_local_files: true,
             karaoke_lyrics: true,
+            blur_lyrics: true,
             romanized_lyrics: true,
             panel_lyrics_scale: DEFAULT_LYRICS_SCALE,
             fullscreen_lyrics_scale: DEFAULT_LYRICS_SCALE,
@@ -352,6 +354,10 @@ impl AppSettings {
 
     pub fn karaoke_lyrics(&self) -> bool {
         self.values.karaoke_lyrics
+    }
+
+    pub fn blur_lyrics(&self) -> bool {
+        self.values.blur_lyrics
     }
 
     pub fn romanized_lyrics(&self) -> bool {
@@ -540,6 +546,11 @@ impl AppSettings {
 
     pub fn set_karaoke_lyrics(&mut self, karaoke: bool, cx: &mut Context<Self>) {
         self.values.karaoke_lyrics = karaoke;
+        self.schedule_save(cx);
+    }
+
+    pub fn set_blur_lyrics(&mut self, blur: bool, cx: &mut Context<Self>) {
+        self.values.blur_lyrics = blur;
         self.schedule_save(cx);
     }
 
