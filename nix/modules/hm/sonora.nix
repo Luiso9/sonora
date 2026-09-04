@@ -24,18 +24,24 @@ let
     '';
   };
   merge = "${lib.getExe apply} ${generated}";
-  package =
-    if cfg.settings == { } then
-      cfg.package
-    else
-      pkgs.symlinkJoin {
-        name = "sonora";
-        paths = [ cfg.package ];
-        nativeBuildInputs = [ pkgs.makeWrapper ];
-        postBuild = ''
-          wrapProgram $out/bin/sonora --run ${lib.escapeShellArg merge}
-        '';
-      };
+  alsaPluginDir = pkgs.symlinkJoin {
+    name = "sonora-alsa-plugins";
+    paths = [
+      "${pkgs.pipewire}/lib/alsa-lib"
+      "${pkgs.alsa-plugins}/lib/alsa-lib"
+    ];
+  };
+  package = pkgs.symlinkJoin {
+    name = "sonora";
+    paths = [ cfg.package ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      rm -f $out/bin/sonora
+      makeWrapper ${lib.getExe cfg.package} $out/bin/sonora \
+        --set ALSA_PLUGIN_DIR ${alsaPluginDir} \
+        ${lib.optionalString (cfg.settings != { }) "--run ${lib.escapeShellArg merge}"}
+    '';
+  };
 in
 {
   options.programs.sonora = {

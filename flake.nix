@@ -70,6 +70,14 @@
 
           asset = release.assets.${pkgs.stdenv.hostPlatform.system};
 
+          alsaPluginDirectory = pkgs.symlinkJoin {
+            name = "sonora-alsa-plugins";
+            paths = [
+              "${pkgs.pipewire}/lib/alsa-lib"
+              "${pkgs.alsa-plugins}/lib/alsa-lib"
+            ];
+          };
+
           sonora-bin = pkgs.stdenv.mkDerivation {
             pname = "sonora-bin";
             inherit (release) version;
@@ -81,6 +89,8 @@
 
             dontUnpack = true;
             dontStrip = true;
+
+            nativeBuildInputs = [ pkgs.makeWrapper ];
 
             installPhase = ''
               runHook preInstall
@@ -113,6 +123,8 @@
                 --set-interpreter "${pkgs.stdenv.cc.bintools.dynamicLinker}" \
                 --add-rpath "${pkgs.lib.makeLibraryPath (runtimeLibraries ++ [ pkgs.stdenv.cc.cc.lib ])}" \
                 "$out/bin/sonora"
+              wrapProgram "$out/bin/sonora" \
+                --set ALSA_PLUGIN_DIR ${alsaPluginDirectory}
             '';
 
             meta = {
