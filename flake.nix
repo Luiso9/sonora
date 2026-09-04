@@ -11,6 +11,7 @@
 
   outputs =
     {
+      self,
       nixpkgs,
       rust-overlay,
       ...
@@ -183,5 +184,16 @@
           };
         }
       );
+
+      overlays.default = final: _prev: {
+        sonora = self.packages.${final.stdenv.hostPlatform.system}.default;
+      };
+
+      homeManagerModules = {
+        default = import ./nix/modules/hm-module.nix self;
+        sonora = import ./nix/modules/hm-module.nix self;
+      };
+
+      homeModules = self.homeManagerModules;
     };
 }
