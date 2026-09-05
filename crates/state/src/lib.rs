@@ -116,6 +116,7 @@ pub fn init(
 ) {
     cx.set_global(io.clone());
     database.migrate();
+    music::credentials::migrate();
 
     let settings = cx.new(|_| AppSettings::load(database.clone()));
     let session =

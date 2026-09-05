@@ -14,6 +14,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   only preferences. Existing files are migrated on the first start.
 - YouTube Music sign-in now opens your default browser from the cookie instructions dialog.
   Browser cookie extraction and automatic refresh from browser profiles have been removed.
+- Each provider keeps its sign-in in its own `credentials.json` under the cache folder, readable
+  only by you. Existing Spotify and YouTube Music sign-ins move over on the first launch.
 
 ### Fixed
 

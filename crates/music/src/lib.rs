@@ -1,5 +1,6 @@
 mod audio;
 pub mod binimum;
+pub mod credentials;
 pub mod kugou;
 #[cfg(test)]
 mod live_tests;
