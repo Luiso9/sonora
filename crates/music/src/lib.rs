@@ -216,7 +216,6 @@ pub struct ProviderSession {
 pub enum SignIn {
     Default,
     Anonymous,
-    Browser(String),
     Secret,
     Path(PathBuf),
 }

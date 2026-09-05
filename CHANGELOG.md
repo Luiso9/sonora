@@ -12,6 +12,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Window position, sidebar sizes, playback mode, table layouts, pins, listening history and local
   playlists now live in one `state.sqlite` file in the data directory, and `settings.json` keeps
   only preferences. Existing files are migrated on the first start.
+- YouTube Music sign-in now opens your default browser from the cookie instructions dialog.
+  Browser cookie extraction and automatic refresh from browser profiles have been removed.
 
 ### Fixed
 
