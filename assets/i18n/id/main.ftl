@@ -32,7 +32,7 @@ nav-artists = Artis
 nav-local = Musik Lokal
 nav-back = Kembali
 nav-forward = Teruskan
-nav-sidebar = Toggle sidebar
+nav-sidebar = Tampilkan atau sembunyikan bilah samping
 nav-sidebar-right = Tampilkan atau sembunyikan lirik dan antrian
 nav-pinned = Sematkan
 nav-unpin = Lepas sematan
@@ -86,7 +86,7 @@ menu-add-tracks-to-playlist = { $count ->
    *[other] Tambahkan { $count } lagu ke playlist
 }
 menu-new-playlist = Playlist baru
-menu-edit-tags = Edit tags
+menu-edit-tags = Edit tag
 menu-no-playlists = Tidak ada playlist
 menu-add-to-library = Tambahkan ke favorit
 menu-add-tracks-to-library = { $count ->
@@ -230,7 +230,7 @@ view-cards = Kartu
 # toolbar
 tool-columns = Kolom
 tool-sort = Urutkan
-tool-filters = Filters
+tool-filters = Filter
 
 # login
 login-signed-out = Masuk untuk memuat koleksi musikmu
@@ -246,11 +246,6 @@ login-problem-refused = Spotify menolak permintaan login. Tunggu sebentar dan co
 login-problem-premium = Sonora memerlukan Spotify Premium untuk streaming. Akun ini tidak memiliki Premium. Masuk dengan akun Premium untuk melanjutkan.
 login-sign-in = Masuk dengan { $provider }
 login-connect-cookies = Tempel cookie manual
-login-import-browser = Impor dari browser*
-login-import-browser-plain = Impor dari browser
-login-browser-firefox = *Hanya untuk browser berbasis Firefox
-login-browser-title = Pilih browser
-login-browser-detail = Sonora membaca sesi YouTube Music dari browser yang Anda pilih. Sesi tersebut tetap berada di perangkat ini.
 login-use = Gunakan { $provider }
 login-guest-title = Mode Tamu
 login-guest-use = Gunakan Mode Tamu
@@ -384,7 +379,6 @@ language-en = Inggris
 language-es = Spanyol
 language-fr = Prancis
 language-hi = Hindi
-language-id = Indonesia
 language-it = Italia
 language-ja = Jepang
 language-ko = Korea
@@ -589,7 +583,7 @@ toast-next-playlist = Playlist akan diputar berikutnya
 toast-queued-artist = Artis ditambahkan ke antrean
 toast-next-artist = Artis akan diputar berikutnya
 toast-queue-failed = Item tersebut tidak dapat ditambahkan ke antrean
-toast-keys-refused = Spotify is not granting this account playback keys
+toast-keys-refused = Spotify tidak memberikan kunci pemutaran untuk akun ini
 toast-sign-in-to-play = { $name } hanya dapat diputar untuk pendengar yang sudah masuk akun
 toast-track-unplayable = { $name } tidak dapat diputar
 toast-library-add-failed = { $name } tidak dapat ditambahkan ke koleksi kamu

@@ -9,6 +9,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Sonora speaks Indonesian. Pick Bahasa Indonesia under Settings > General > Language, or leave the
+  language on System and it follows an Indonesian desktop on its own.
 - On Linux and FreeBSD, Sonora can switch between server-side and client-side window decorations
   from Appearance and shows its own window controls automatically with client-side decorations.
 
