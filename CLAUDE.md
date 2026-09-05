@@ -204,7 +204,7 @@ construction, layout and scene assembly, never GPU fill.
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | Settings          | `$XDG_CONFIG_HOME/sonora/settings.json` (durable preferences and local music folder)                                              |
 | App state         | `$XDG_DATA_HOME/sonora/state.sqlite` (window/layout/playback state, pins, history, local playlists, usage flags)                  |
-| Credentials cache | `$XDG_CACHE_HOME/sonora/credentials.json`                                                                                         |
+| Credentials cache | `$XDG_CACHE_HOME/sonora/<provider>/credentials.json`, one per provider slug (`spotify`, `youtube`), owner-only mode                |
 | OAuth redirect    | `http://127.0.0.1:8989/login`, override with `SONORA_REDIRECT_URI`                                                                |
 | Instance socket   | `sonora.sock`, `sonora-dev.sock` in debug builds, so `cargo run` starts beside an installed Sonora rather than handing over to it |
 | Log file          | `$XDG_STATE_HOME/sonora/sonora.log`, rotated to `.1` past 8 MiB                                                                   |
@@ -214,7 +214,11 @@ construction, layout and scene assembly, never GPU fill.
 Startup runs one migration pass before constructing app state. It moves volatile values out of a
 pre-v2 `settings.json`, imports `history.sqlite3`, `flags.sqlite3` and
 `local-playlists.sqlite3` into `state.sqlite`, and moves `local-music.json`'s folder into
-`settings.json`. A legacy file is removed only after its replacement has been written successfully.
+`settings.json`. `music::credentials::migrate` runs in the same pass: it rewrites the Spotify
+`credentials.json` from the cache root into `spotify/` and folds the YouTube `cookies.txt`,
+`authuser.txt` and `guest` files into `youtube/credentials.json`, each owner-only, so the providers
+only ever read the new paths. A legacy file is removed only after its replacement has been written
+successfully.
 This compatibility code is intentionally temporary and can be removed after the next release.
 
 ## Before you build a component
