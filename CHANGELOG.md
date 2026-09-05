@@ -7,6 +7,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- Window position, sidebar sizes, playback mode, table layouts, pins, listening history and local
+  playlists now live in one `state.sqlite` file in the data directory, and `settings.json` keeps
+  only preferences. Existing files are migrated on the first start.
+
 ### Fixed
 
 - Playback no longer falls silent on PipeWire systems with a large graph quantum, such as a
